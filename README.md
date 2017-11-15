@@ -1,20 +1,18 @@
 # CNN-with-IBM-for-Singing-Voice-Separation
 
 ## Getting Started
-
 This is the source code to reproduce the results stated at my journal paper (submitted)
 "Deeply and Convolutionally Separating Singing Voice from its Music Accompaniment using Ideal Binary Mask as the Target Label"
 
 ## Prerequisites
-
-The source code must be executed using GPU with at least 12GB memory , e.g. NVIDIA GeForce GTX TITAN X. Install the following python packages.
-'''
+* The source code must be executed using GPU with at least 12GB memory , e.g. NVIDIA GeForce GTX TITAN X. 
+* Install the following python packages.
+```
 pip install resampy
 pip install dsdtools
-'''
+```
 
 ## 01 iKala Dataset
-
 * Please first download the trained CNN from the following site
 https://www.dropbox.com/sh/1p521wsk01buean/AAAx4S1uT7ToZP3rwqK-bbjIa?dl=0
 * Then put them under 01_iKalaProject Folder
