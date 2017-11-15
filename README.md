@@ -16,6 +16,11 @@ The model is trained in the next 120 epochs at the actual training
 [model usage]
 Before using model, change the path info in "checkpoint" file to match the full path of "mode_yyyymmdd_HHMM"
 
+[iKala Dataset]
+Put all the files, which is under the Wavfile of the ikala dataset, to "Wavfile" folder.
+iKala dataset can be obtained from the following site
+http://mac.citi.sinica.edu.tw/ikala/
+
 [Reproduce Paper Result]
 Simply execute the python files one by one, based on their sequency number 
 e.g. "00_<filename>","01_<filename>", so on and so forth
