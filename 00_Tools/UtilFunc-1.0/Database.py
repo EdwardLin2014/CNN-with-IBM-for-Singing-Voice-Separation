@@ -3,10 +3,13 @@ from os import walk
 
 def iKalaWavFileNames(DatabaseDirStr):
     '''
-    Output 
-        FileDirs = cell(252,1);
-        137 Verse = cell(1:137,1);
-        115 Chorus = cell(138:252,1);
+    %%
+    %	Obtain the path of each wave files from iKala based on 
+    %		the file name listed in ls -s and type - Verse and Chorus
+    %	DatabaseDirStr:      Path/To/iKala/WavFile
+    %	return FileDirs = cell(252,1)
+    %		137 Verse = cell(1:137,1)
+    %		115 Chorus = cell(138:252,1)
     '''
     ## Function Body
     iKala = []
@@ -38,108 +41,6 @@ def iKalaWavFileNames(DatabaseDirStr):
             FilesDirs[l] = DatabaseDirStr + wavname
 
     return FilesDirs
-
-def iKalaPitchLabelFileNames(DatabaseDirStr):
-    '''
-    Output 
-        FileDirs = cell(252,1);
-        137 Verse = cell(1:137,1);
-        115 Chorus = cell(138:252,1);
-    '''
-    ## Function Body
-    iKala = []
-    for (dirpath, dirnames, filenames) in walk(DatabaseDirStr):
-        iKala.extend(filenames)
-        break
-    numFiles = 0;
-    startIdx = -1;
-    for i, filename in enumerate(iKala):
-        if len(filename) > 3:
-            if filename[-3:] == '.pv':
-                numFiles += 1
-            else:
-                startIdx = i
-        else:
-            startIdx = i
-    
-    FilesDirs = ["" for x in range(numFiles)]
-    l = -1;
-    for i in np.arange(startIdx+1,numFiles+startIdx+1):
-        wavname = iKala[i]
-        if wavname[-9:] == '_verse.pv':
-            l += 1
-            FilesDirs[l] = DatabaseDirStr + wavname
-    for i in np.arange(startIdx+1,numFiles+startIdx):
-        wavname = iKala[i]
-        if wavname[-10:] == '_chorus.pv':
-            l += 1
-            FilesDirs[l] = DatabaseDirStr + wavname
-
-    return FilesDirs
-    
-def iKalaPitchMask( PitchFileNames,numMusics ):
-    PitchMask = np.zeros((numMusics,937),float);
-    
-    for n in np.arange(numMusics):
-        with open(PitchFileNames[n]) as f:
-            i = 0
-            for line in f:
-                PitchMask[n,i] = line
-                i += 1
-    PitchMask[PitchMask>1] = 1;
-    return PitchMask
-
-def ccMixterWavFileNames(DatabaseDirStr, isLeft):
-
-    ## Function Body
-    if isLeft:
-        VoiceDirStr = DatabaseDirStr + 'Voice_L/'
-        SongDirStr = DatabaseDirStr + 'Bgm_L/'
-    else:
-        VoiceDirStr = DatabaseDirStr + 'Voice_R/'
-        SongDirStr = DatabaseDirStr + 'Bgm_R/'
-    # Voice
-    ccMixterVoice = []
-    for (dirpath, dirnames, filenames) in walk(VoiceDirStr):
-        ccMixterVoice.extend(filenames)
-        break
-    numFiles = 0;
-    startIdx = -1;
-    for i, filename in enumerate(ccMixterVoice):
-        if len(filename) > 3:
-            if filename[-4:] == '.wav':
-                numFiles += 1
-            else:
-                startIdx = i
-        else:
-            startIdx = i
-    VoiceFilesName = ["" for x in range(numFiles)]
-    l = 0
-    for i in np.arange(startIdx+1,numFiles+startIdx+1):
-        VoiceFilesName[l] = VoiceDirStr + ccMixterVoice[i]
-        l += 1
-    # Song
-    ccMixterSong = []
-    for (dirpath, dirnames, filenames) in walk(SongDirStr):
-        ccMixterSong.extend(filenames)
-        break
-    numFiles = 0;
-    startIdx = -1;
-    for i, filename in enumerate(ccMixterSong):
-        if len(filename) > 3:
-            if filename[-4:] == '.wav':
-                numFiles += 1
-            else:
-                startIdx = i
-        else:
-            startIdx = i
-    SongFilesName = ["" for x in range(numFiles)]
-    l = 0
-    for i in np.arange(startIdx+1,numFiles+startIdx+1):
-        SongFilesName[l] = SongDirStr + ccMixterSong[i]
-        l += 1
-
-    return VoiceFilesName, SongFilesName
 
 def DSD100WavFileNames(DatabaseDirStr):
     ## LMix
@@ -295,7 +196,3 @@ def DSD100RawNames(DatabaseDirStr):
             DevNames.extend(dirnames)
         break
     return TestNames, DevNames
-
-
-
-

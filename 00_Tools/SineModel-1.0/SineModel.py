@@ -3,13 +3,10 @@ import numpy as np
 import math
 from scipy.fftpack import fft, ifft
 Tool_UtilFunc_DirStr = '../UtilFunc-1.0/'
-cSineModel_DirStr = '../SineModel-1.0/'
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), Tool_UtilFunc_DirStr))
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), cSineModel_DirStr))
-import UnitTranslation as UT
 tol = 1e-14                                                      # threshold used to compute phase
 
-def dftAnal( x, N, window ):
+def dftAnal(x, N, window):
     '''
     %%
     %	Analysis of a signal using the discrete Fourier transform
@@ -47,7 +44,7 @@ def dftAnal( x, N, window ):
     
     return X, mX, pX
 
-def stft( x, Parm ):
+def stft(x, Parm):
     '''
     %% Analysis of a sound using the short-time Fourier transform
     %% Input:
@@ -104,7 +101,7 @@ def stft( x, Parm ):
     
     return X, mX, pX, remain, numFrames, numBins
 
-def dftSynth( mX, pX, M, N ):
+def dftSynth(mX, pX, M, N):
     '''
     %%
     %   Synthesis of a signal using the discrete Fourier transform
@@ -136,7 +133,7 @@ def dftSynth( mX, pX, M, N ):
         
     return y
 
-def istft( mY, pY, Parm ):
+def istft(mY, pY, Parm):
     '''
     %% Synthesis of a sound using the short-time Fourier transform
     %% Input:
@@ -181,27 +178,3 @@ def istft( mY, pY, Parm ):
     y = y[hM2:-hM1+1]
     
     return y
-
-def peakDetection( mXdB, Parm ):
-    '''
-    % Detect spectral peak locations
-    % mXdB: magnitude spectrum in dB
-    % t: MagLevel: 1-64
-    % returns mask of peak locations
-    '''
-    ploc = np.zeros((Parm.numBins,Parm.numFrames))
-
-    for n in np.arange(Parm.numFrames):
-        # potential location of peak
-        next_minor = np.where(mXdB[1:-1,n]>mXdB[2:,n], 1, 0)      # locations higher than the next one
-        prev_minor = np.where(mXdB[1:-1,n]>mXdB[:-2,n], 1, 0)     # locations higher than the previous one
-        idx = next_minor * prev_minor                             # locations fulfilling the two criteria
-        idx = idx.nonzero()[0] + 1                                # add 1 to compensate for previous steps
-        ploc[idx,n] = 1
-    
-        # peak below Mag Level, cancel
-        MagLvl = UT.dBToMagLvl(mXdB[idx,n], Parm.mindB, Parm.maxdB)
-        cancelrow = np.where(MagLvl<Parm.t, 1, 0)
-        ploc[idx[cancelrow.nonzero()[0]],n] = 0
-    
-    return ploc

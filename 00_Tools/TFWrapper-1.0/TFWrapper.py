@@ -127,41 +127,6 @@ def deconv2d_layer(input_tensor, patch_width, patch_height, input_channel, outpu
             activations = act(preactivate, name='activation')
     return activations
 
-def batch_norm(x, scope, istrain):
-    """
-    Batch normalization on convolutional maps.
-    Ref.: http://stackoverflow.com/questions/33949786/how-could-i-use-batch-normalization-in-tensorflow
-    Args:
-        x:           Tensor, 
-                     if scope = fullconnect - a vector             
-                     if scope = input or conv2d - 4D Batch-Height-Width-Depth input maps
-        scope:       integer, 1 = input, 2 = conv2d, 3 = fullconnect
-        istrain:     boolean tf.Varialbe, true indicates training phase
-    Return:
-        normed:      batch-normalized maps
-    """
-    with tf.variable_scope('bn'):
-        beta = tf.Variable(tf.constant(0.0, shape=[1]),name='beta', trainable=True)
-        gamma = tf.Variable(tf.constant(1.0, shape=[1]),name='gamma', trainable=True)
-        if scope == 1:
-            batch_mean, batch_var = tf.nn.moments(x, [0,1], name='moments_input')
-        elif scope == 2:
-            batch_mean, batch_var = tf.nn.moments(x, [0,1,2], name='moments_conv2d')
-        elif scope == 3:
-            batch_mean, batch_var = tf.nn.moments(x, [0], name='moments_fullconnect')
-        ema = tf.train.ExponentialMovingAverage(decay=0.5)
-
-        def mean_var_with_update():
-            ema_apply_op = ema.apply([batch_mean, batch_var])
-            with tf.control_dependencies([ema_apply_op]):
-                return tf.identity(batch_mean), tf.identity(batch_var)
-
-        mean, var = tf.cond(istrain,
-                            mean_var_with_update,
-                            lambda: (ema.average(batch_mean), ema.average(batch_var)))
-        normed = tf.nn.batch_normalization(x, mean, var, beta, gamma, 1e-3)
-    return normed
-
 def getTotalParameters():
     total_parameters = 0
     for variable in tf.trainable_variables():
