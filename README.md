@@ -7,8 +7,11 @@ https://www.dropbox.com/sh/1p521wsk01buean/AAAx4S1uT7ToZP3rwqK-bbjIa?dl=0
 Then put them under 01_iKalaProject Folder
 
 [model_20170930_1142] is trained in the first 180 epochs at the parameters initialization steps
+
 [model_20171001_1105] is trained in the next 120 epochs at the parameters initialization steps
+
 [model_20171002_0029] is trained in the first 180 epochs at the actual training
+
 [model_20171002_1756] is trained in the next 120 epochs at the actual training
 
 [model usage]
