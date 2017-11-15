@@ -21,6 +21,10 @@ iKala dataset can be obtained from the following site http://mac.citi.sinica.edu
 Simply execute the python files one by one, based on their sequency number 
 ```
 python 01_iKalaProject/00_prePro_HDF5.py
+python 01_iKalaProject/01_parmInit_AE.py
+python 01_iKalaProject/02_train_CNN.py
+python 01_iKalaProject/03_postPro_Eval.py
+python 01_iKalaProject/04_BSS_Eval.py
 ```
 
 ## 02 DSD100 Dataset
