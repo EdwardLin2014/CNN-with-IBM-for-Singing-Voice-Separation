@@ -25,7 +25,7 @@ https://www.dropbox.com/sh/1p521wsk01buean/AAAx4S1uT7ToZP3rwqK-bbjIa?dl=0
 Before using model, change the path info in "checkpoint" file to match the full path of "mode_yyyymmdd_HHMM"
 
 ### Dataset
-Put all the files, which is under the Wavfile of the ikala dataset, to "Wavfile" folder.
+Put all the files, which is under the Wavfile of the ikala dataset, to "01_iKalaProject/Wavfile" folder.
 iKala dataset can be obtained from the following site http://mac.citi.sinica.edu.tw/ikala/
 
 ### Reproduce Paper Result

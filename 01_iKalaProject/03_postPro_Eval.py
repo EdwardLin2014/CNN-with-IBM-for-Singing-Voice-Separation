@@ -9,7 +9,7 @@ import resampy as rs
 
 Tool_UtilFunc_DirStr = '../../00_Tools/UtilFunc-1.0/'
 Tool_SineModel_DirStr = '../../00_Tools/SineModel-1.0/'
-WavDirStr = '../Wavfile/'
+WavDirStr = './Wavfile/'
 OutDirStr = './Audio/Threshold_'
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), Tool_UtilFunc_DirStr))
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), Tool_SineModel_DirStr))

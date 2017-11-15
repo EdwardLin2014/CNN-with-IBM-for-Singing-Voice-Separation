@@ -3,7 +3,7 @@ clear all; close all; clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Step 0 - Parmaters Setting
 ToolDirStr = '../00_Tools/';
-WavDirStr = '../Wavfile/';
+WavDirStr = './Wavfile/';
 CNNAudioDirStr = './Audio/Threshold_0_35/';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
