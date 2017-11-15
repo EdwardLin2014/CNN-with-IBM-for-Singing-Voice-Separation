@@ -34,25 +34,3 @@ def audiowrite(filename, y, fs):
 	x *= INT16_FAC                               # scaling floating point -1 to 1 range signal to int16 range
 	x = np.int16(x)                              # converting to int16 type
 	write(filename, fs, x)
-
-def ScaleToRange( NewMin, NewMax, X ):
-    OldMin = min(X)
-    OldMax = max(X)
-    
-    ScaledFactor = (NewMax-NewMin)/(OldMax-OldMin)
-    ScaledX = ScaledFactor*(X - OldMin) + NewMin
-    
-    return ScaledX
-
-def scaleAudio( song, MinAmp, MaxAmp ):
-    UpperSong = copy.deepcopy(song)
-    UpperSong[UpperSong<=0] = 0
-    UpperSong[UpperSong>=0] = ScaleToRange( 0, MaxAmp, UpperSong[UpperSong>=0] )
-    
-    LowerSong = copy.deepcopy(song)
-    LowerSong[LowerSong>=0] = 0
-    LowerSong[LowerSong<=0] = ScaleToRange( MinAmp, 0, LowerSong[LowerSong<=0] )
-    
-    Scaledsong = UpperSong + LowerSong
-    
-    return Scaledsong
