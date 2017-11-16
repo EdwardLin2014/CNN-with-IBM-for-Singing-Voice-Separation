@@ -37,6 +37,9 @@ python 01_iKalaProject/02_train_CNN.py
 python 01_iKalaProject/03_postPro_Eval.py
 python 01_iKalaProject/04_BSS_Eval.py
 ```
+### Paper Result
+The excel file, which contains all results of each clip, can be found at
+https://www.dropbox.com/s/a9qumoobxm6a4u9/CNN_035.xlsx?dl=0
 
 ## 02 DSD100 Dataset
 * Please first download the trained CNN from the following site
@@ -61,3 +64,7 @@ python 02_DSD100Project/02_train_CNN.py
 python 02_DSD100Project/03_postPro_Eval.py
 python 02_DSD100Project/04_BSS_Eval.py
 ```
+
+### Paper Result
+The excel file, which contains all results of each clip, can be found at
+https://www.dropbox.com/s/ijvpusrdp7lxu3l/CNN_015.mat?dl=0
