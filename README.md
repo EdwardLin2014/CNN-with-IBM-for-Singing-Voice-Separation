@@ -39,5 +39,25 @@ python 01_iKalaProject/04_BSS_Eval.py
 ```
 
 ## 02 DSD100 Dataset
+* Please first download the trained CNN from the following site
+https://www.dropbox.com/sh/uln8f0429aksl0a/AAD9pJBnn5usn06qC3JagrfKa?dl=0
+* Then put them under 01_iKalaProject Folder
+* model_20171004_0203 is trained with 300 epochs at the parameters initialization steps
+* model_20171006_0945 is trained with 300 epochs at the actual training
 
+### Model usage
+Before using model, change the path info in "checkpoint" file to match the full path of "mode_yyyymmdd_HHMM"
 
+### Dataset
+Put "Mixtures" and "Sources" Folders of the DSD100 dataset, to "02_DSD100Project/Wavfile" folder.
+DSD100 dataset can be obtained from the following site https://www.sisec17.audiolabs-erlangen.de/
+
+### Reproduce Paper Result
+Simply execute the python files one by one, based on their sequency number 
+```
+python 02_DSD100Project/00_prePro_HDF5.py
+python 02_DSD100Project/01_parmInit_AE.py
+python 02_DSD100Project/02_train_CNN.py
+python 02_DSD100Project/03_postPro_Eval.py
+python 02_DSD100Project/04_BSS_Eval.py
+```
