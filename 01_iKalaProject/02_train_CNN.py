@@ -24,9 +24,9 @@ TSolu = 9                           # Image Size (Time) after final pooling
 FSolu = 15                          # Image Size (Frequency) after final pooling
 
 MaxEpochs = 300                     # Maximum number of epochs
-numTrain = 152                      # number of training clips
-numValid = 50                       # number of validation clips
-numTest = 50                        # number of test clips
+numTrain = 152                      # number of training clips, number of instance: 49,096
+numValid = 50                       # number of validation clips, number of instance: 16,150
+numTest = 50                        # number of test clips, number of instance: 16,150
 cost = np.zeros((MaxEpochs,3))      # loss function for each dataset
     
 #########################################################################
@@ -38,20 +38,20 @@ H5FileName = H5DirStr + 'iKala_IBM.h5'
 
 tic = time.time()
 h5f = h5py.File(H5FileName, 'r')
-trainSet = h5f['train']                                 # Mixture Spectrogram
-trainLabel = h5f['trainLabel']                          # Vocal IBM Label
+trainSet = h5f['train']                                   # Mixture Spectrogram
+trainLabel = h5f['trainLabel']                            # Vocal IBM Label
 toc = time.time() - tic
 print('Obtained Training set need %.2f sec' % toc)
 
 tic = time.time()
-valSet = h5f['valid']                                   # Mixture Spectrogram
-valLabel = h5f['validLabel']                            # Vocal IBM Label
+validSet = h5f['valid']                                   # Mixture Spectrogram
+validLabel = h5f['validLabel']                            # Vocal IBM Label
 toc = time.time() - tic
 print('Obtained validation set need %.2f sec' % toc)
 
 tic = time.time()
-testSet = h5f['test']                                   # Mixture Spectrogram
-testLabel = h5f['testLabel']                            # Vocal IBM Label
+testSet = h5f['test']                                     # Mixture Spectrogram
+testLabel = h5f['testLabel']                              # Vocal IBM Label
 toc = time.time() - tic
 print('Obtained Test set need %.2f sec' % toc)
 
@@ -78,7 +78,7 @@ print('Restore the model needs %.2f sec at %s' % (toc,time.strftime("%Y%m%d_%H%M
 ## Step 2 - Train the CNN and Write the Log
 totalic = time.time()
 saver = tf.train.Saver()
-minValCost = 1
+minValidCost = 1
 for i in range(MaxEpochs):
     # Training
     tic = time.time()
@@ -112,16 +112,16 @@ for i in range(MaxEpochs):
     for t in range(numValid):
         StartIdx = t*TnumFrames
         EndIdx = StartIdx + hFrame
-        tmpCost1 = sess.run(crossEntropy, feed_dict={x:valSet[StartIdx:EndIdx,:], y_:valLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
+        tmpCost1 = sess.run(crossEntropy, feed_dict={x:validSet[StartIdx:EndIdx,:], y_:validLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
         StartIdx = EndIdx
         EndIdx = StartIdx + hFrame
-        tmpCost2 = sess.run(crossEntropy, feed_dict={x:valSet[StartIdx:EndIdx,:], y_:valLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
+        tmpCost2 = sess.run(crossEntropy, feed_dict={x:validSet[StartIdx:EndIdx,:], y_:validLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
         StartIdx = EndIdx
         EndIdx = (t+1)*TnumFrames
-        tmpCost3 = sess.run(crossEntropy, feed_dict={x:valSet[StartIdx:EndIdx,:], y_:valLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
+        tmpCost3 = sess.run(crossEntropy, feed_dict={x:validSet[StartIdx:EndIdx,:], y_:validLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
         cost[i,1] += (tmpCost1+tmpCost2+tmpCost3)/3
     cost[i,1] /= numValid
-    if cost[i,1] < minValCost:
+    if cost[i,1] < minValidCost:
     ## Step 3 - Save the Trained Model
         stic = time.time()
         if tf.gfile.Exists(NewModelDirStr):

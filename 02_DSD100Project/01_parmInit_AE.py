@@ -24,9 +24,9 @@ TSolu = 9                           # Image Size (Time) after final pooling
 FSolu = 15                          # Image Size (Frequency) after final pooling
 
 MaxEpochs = 300                     # Maximum number of epochs
-numTrain = 152                      # number of training clips, number of instance: 49,096
-numValid = 50                       # number of validation clips, number of instance: 16,150
-numTest = 50                        # number of test clips, number of instance: 16,150
+numTrain = 347                      # number of training clips, number of instance: 112,081
+numValid = 347                      # number of validation clips, number of instance: 112,081
+numTest = 298                       # number of test clips, number of instance: 96,254
 cost = np.zeros((MaxEpochs,3))      # loss function for each dataset
     
 #########################################################################
@@ -34,7 +34,7 @@ cost = np.zeros((MaxEpochs,3))      # loss function for each dataset
 totaltic = time.time()
 
 print('Start to obtain dataset. Please wait......')
-H5FileName = H5DirStr + 'iKala_IBM.h5'
+H5FileName = H5DirStr + 'DSD100_IBM.h5'
 
 tic = time.time()
 h5f = h5py.File(H5FileName, 'r')
@@ -44,10 +44,10 @@ toc = time.time() - tic
 print('Obtained Training set need %.2f sec' % toc)
 
 tic = time.time()
-valSet = h5f['validAE']                             # Vocal Spectrogram extracted from IBM x mX
-valLabel = h5f['validAE']                           # Vocal Spectrogram extracted from IBM x mX
+validSet = h5f['validAE']                           # Vocal Spectrogram extracted from IBM x mX
+validLabel = h5f['validAE']                         # Vocal Spectrogram extracted from IBM x mX
 toc = time.time() - tic
-print('Obtained validation set need %.2f sec' % toc)
+print('Obtained Valid set need %.2f sec' % toc)
 
 tic = time.time()
 testSet = h5f['testAE']                             # Vocal Spectrogram extracted from IBM x mX
@@ -70,18 +70,18 @@ keep_prob = tf.placeholder(tf.float32, name='keep_prob')
 # conv & pool layer - activation='relu' - tf.contrib.layers.xavier_initializer 
 Conv1 = TFW.conv2d_layer(x_image, 3,12,1,32,'Conv1')         # (3*12)*32 + 32 = 1,152 + 32 = 1,184
 Conv2 = TFW.conv2d_layer(Conv1,3,12,32,16,'Conv2')           # (3*12)*32*16 +16 = 18,432 + 16 = 18,448
-MaxPool1 = TFW.max_pool_1x12(Conv2,'MaxPool1')               # Image Size (9*171)
+MaxPool1 = TFW.max_pool_1x12(Conv2,'MaxPool1')
 Conv3 = TFW.conv2d_layer(MaxPool1,3,12,16,64,'Conv3')        # (3*12)*16*64 + 64 = 36,864 + 64 = 36,928 
 Conv4 = TFW.conv2d_layer(Conv3,3,12,64,32,'Conv4')           # (3*12)*64*32 + 32 = 73,728 + 32 = 73,760
-MaxPool2 = TFW.max_pool_1x12(Conv4,'MaxPool2')		        # Image Size (9*15)
+MaxPool2 = TFW.max_pool_1x12(Conv4,'MaxPool2')
 # fully-connected layer + dropout
-Conv4_flat = tf.reshape(MaxPool2, [-1, TSolu * FSolu * 32], name='Conv4_flat')   # 4,320
+Conv4_flat = tf.reshape(MaxPool2, [-1, TSolu * FSolu * 32], name='Conv4_flat')   # 4320
 fc1_drop = tf.nn.dropout(Conv4_flat, keep_prob, name='drop1')
-fc1 = TFW.nn_layer(fc1_drop, TSolu * FSolu * 32, 2048, 'fullyConnect1')           # 4,320*2,048 + 2,048 = 8,847,360 + 2,048 = 8,849,408
+fc1 = TFW.nn_layer(fc1_drop, TSolu * FSolu * 32, 2048, 'fullyConnect1')           # 4320*2048 + 2048 = 8,847,360 + 2048 = 8,849,408
 fc2_drop = tf.nn.dropout(fc1, keep_prob, name='drop2')
-fc2 = TFW.nn_layer(fc2_drop, 2048, 512, 'fullyConnect2')                          # 2,048*512 + 512 = 1,048,576 + 512 = 1,049,088
+fc2 = TFW.nn_layer(fc2_drop, 2048, 512, 'fullyConnect2')                          # 2048*512 + 512 = 1,048,576 + 512 = 1,049,088
 # output layer
-y = TFW.nn_layer(fc2, 512, numClass, 'ouputLayer', act=tf.identity)               # 512*18,441 + 18,441 = 9,441,792 + 18,441 = 9,460,233
+y = TFW.nn_layer(fc2, 512, numClass, 'ouputLayer', act=tf.identity)               # 512*18441 + 18441 = 9,441,792 + 18,441 = 9,460,233
 # Total Trainable Parameters = 19,489,049
 # Define loss and optimizer
 crossEntropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=y_, logits=y, name='crossEntropy'), name='lossValue')
@@ -128,13 +128,13 @@ for i in range(MaxEpochs):
     for t in range(numValid):
         StartIdx = t*TnumFrames
         EndIdx = StartIdx + hFrame
-        tmpCost1 = sess.run(crossEntropy, feed_dict={x:valSet[StartIdx:EndIdx,:], y_:valLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
+        tmpCost1 = sess.run(crossEntropy, feed_dict={x:validSet[StartIdx:EndIdx,:], y_:validLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
         StartIdx = EndIdx
         EndIdx = StartIdx + hFrame
-        tmpCost2 = sess.run(crossEntropy, feed_dict={x:valSet[StartIdx:EndIdx,:], y_:valLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
+        tmpCost2 = sess.run(crossEntropy, feed_dict={x:validSet[StartIdx:EndIdx,:], y_:validLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
         StartIdx = EndIdx
         EndIdx = (t+1)*TnumFrames
-        tmpCost3 = sess.run(crossEntropy, feed_dict={x:valSet[StartIdx:EndIdx,:], y_:valLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
+        tmpCost3 = sess.run(crossEntropy, feed_dict={x:validSet[StartIdx:EndIdx,:], y_:validLabel[StartIdx:EndIdx,:], keep_prob: 1.0})
         cost[i,1] += (tmpCost1+tmpCost2+tmpCost3)/3
     cost[i,1] /= numValid
     if cost[i,1] < minValidCost:
@@ -150,7 +150,7 @@ for i in range(MaxEpochs):
     toc = time.time() - tic
     print('%dth Valid epoch; Cost = %.8f; times need %.2f sec at %s' % (i,cost[i,1],toc,time.strftime("%Y%m%d_%H%M")))
     
-    # Calculate Loss Value for Test set for 1 epoch
+    # Testing
     tic = time.time()
     for t in range(numTest):
         StartIdx = t*TnumFrames

@@ -7,8 +7,8 @@ import scipy.signal as sg
 import tensorflow as tf
 import resampy as rs
 
-Tool_UtilFunc_DirStr = '../../00_Tools/UtilFunc-1.0/'
-Tool_SineModel_DirStr = '../../00_Tools/SineModel-1.0/'
+Tool_UtilFunc_DirStr = '../00_Tools/UtilFunc-1.0/'
+Tool_SineModel_DirStr = '../00_Tools/SineModel-1.0/'
 WavDirStr = './Wavfile/'
 OutDirStr = './Audio/Threshold_'
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), Tool_UtilFunc_DirStr))
@@ -30,10 +30,10 @@ numSamples = 1323008
 Threshold = 0
 # STFT
 Parm = Param()
-Parm.M = 1024                                       # Window Size, 23.22ms
+Parm.M = 1024                                       # Window Size, 46.44ms
 Parm.window = sg.get_window('hann', Parm.M)         # Window in Vector Form
-Parm.N = 4096                                       # Analysis DFT Size, 92.88ms
-Parm.H = 256                                        # Hop Size, 5.80ms
+Parm.N = 4096                                       # Analysis DFT Size, 185.76ms
+Parm.H = 256                                        # Hop Size, 11.61ms
 Parm.fs = 22050                                     # Sampling Rate, 22.05K Hz
 Parm.remain = 255                                   # audio signal between the center of last frame and the end of audio signal; for synthesis
 Parm.numFrames = 2584                               # Number of frames in spectrogram
@@ -56,8 +56,7 @@ tic = time.time()
 sess = tf.Session() 
 saver = tf.train.import_meta_graph(ModelDirStr+'/model-70.meta')
 saver.restore(sess,tf.train.latest_checkpoint(ModelDirStr))
-# Now, let's access and create placeholders variables and
-# create feed-dict to feed new data
+# Now, let's access and create placeholders variables
 graph = tf.get_default_graph()
 xIn = graph.get_tensor_by_name("xInput:0")
 y_ = graph.get_tensor_by_name("yInput:0")
