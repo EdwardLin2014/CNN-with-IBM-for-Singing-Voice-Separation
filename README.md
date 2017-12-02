@@ -1,8 +1,11 @@
 # CNN-with-IBM-for-Singing-Voice-Separation
 
 ## Getting Started
-This is the source code to reproduce the results stated at my journal paper (submitted)
-"Deeply and Convolutionally Separating Singing Voice from its Music Accompaniment using Ideal Binary Mask as the Target Label"
+This is the source code to reproduce the results stated at my journal paper:
+Kin Wah Edward Lin, Balamurali B T, Enyan Koh, Dorien Herremans, Simon Lui. (2018)
+"Singing Voice Separation using a Deep Convolutional Neural Network with Ideal Binary Mask"
+Special Issue on Deep Learning for Music and Audio in Springer’s Neural Computing and Applications 
+(Under Review)
 
 ## Prerequisites
 * The source code must be executed using GPU with at least 12GB memory , e.g. NVIDIA GeForce GTX TITAN X. 
