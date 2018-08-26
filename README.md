@@ -2,7 +2,7 @@
 
 ## Getting Started
 This is the source code to reproduce the results stated at my journal paper:
-Kin Wah Edward Lin, Balamurali B T, Enyan Koh, Dorien Herremans, Simon Lui. (2018)
+Kin Wah Edward Lin, Balamurali B T, Enyan Koh, Simon Lui and Dorien Herremans. (2018)
 "Singing Voice Separation using a Deep Convolutional Neural Network Trained by Ideal Binary Mask and Cross Entropy"
 Special Issue on Deep Learning for Music and Audio in Springer’s Neural Computing and Applications 
 (Under Review)
