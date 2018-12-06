@@ -4,8 +4,8 @@
 This is the source code to reproduce the results stated at my journal paper:
 Kin Wah Edward Lin, Balamurali B T, Enyan Koh, Simon Lui and Dorien Herremans. (2018)
 "Singing Voice Separation using a Deep Convolutional Neural Network Trained by Ideal Binary Mask and Cross Entropy"
-Special Issue on Deep Learning for Music and Audio in Springer’s Neural Computing and Applications 
-(Under Review)
+Special Issue on Deep Learning for Music and Audio in Springer’s Neural Computing and Applications
+https://arxiv.org/abs/1812.01278
 
 ## Prerequisites
 * The source code must be executed using GPU with at least 12GB memory , e.g. NVIDIA GeForce GTX TITAN X. 
